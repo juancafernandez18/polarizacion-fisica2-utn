@@ -1,0 +1,40 @@
+# Dependencias
+node_modules/
+
+# Build
+frontend/dist/
+frontend/.vite/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Variables de entorno
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Cobertura
+coverage/
+
+# Archivos temporales
+*.tmp
+*.swp
+
+# Notas de trabajo locales
+NOTAS.md
+
+# Material de cátedra (no publicar)
+Problema1.pdf
+
+# Configuración local de Claude Code
+frontend/.claude/
+frontend/.agents/
+frontend/skills-lock.json
