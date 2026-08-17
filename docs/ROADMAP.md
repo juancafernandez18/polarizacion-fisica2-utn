@@ -7,12 +7,11 @@ Este documento resume el estado actual del proyecto y el trabajo previsto. Se ac
 ## Estado actual
 
 - Landing (`HomePage`), índice de simulador (`SimulatorIndexPage`) y página de problema (`ProblemPage`) implementadas con React + Vite + JavaScript plano (sin TypeScript todavía).
-- Simulador de polarización (Ex, Ey, δ, rotación) funcionando con SVG y `requestAnimationFrame`, duplicado entre `HomePage.jsx` y `ProblemPage.jsx`. `HomePage.jsx` además renderiza una vista previa en vivo del mismo simulador en el hero.
-- Tres problemas cargados como datos estáticos en `ProblemPage.jsx` (Problema 1: polarización, Problema 2: Ley de Malus, Problema 3: Ley de Brewster) — solo Problema 1 tiene simulación específica a su teoría; los otros dos reutilizan el mismo simulador de Ex/Ey/δ sin ajustarlo a su fenómeno.
-- Problema 1 incluye los tres casos del enunciado oficial (`Problema1.pdf`) como botones de "Modo Resolver" (Caso A / Caso B / Caso C / Restablecer) en `problemData['problema-1'].quickCases`, que configuran Ex, Ey y δ automáticamente y muestran una descripción del caso seleccionado.
-- Problema 1 incluye una sección "Resultados del análisis matemático" (`buildProblema1Analysis` en `ProblemPage.jsx`, registrada en `mathAnalysisBuilders` por `problemId`) que recalcula en vivo, a partir de Ex/Ey/δ, la misma secuencia de resolución que `Problema1.pdf` (sustitución numérica, identidad trigonométrica aplicable, ecuación resultante, tipo de polarización con dirección circular derecha/izquierda, interpretación física). Verificado línea por línea contra el PDF: mismas identidades, mismo signo, misma ecuación general de la elipse.
+- `ProblemPage.jsx` ya no contiene la lógica de simulación inline: cada problema declara un `simulatorKind` (`'ellipse'`, `'brewster'`) y `ProblemPage` delega el render de las secciones "Simulación interactiva" / "Resultados del análisis matemático" al componente correspondiente en `src/components/`. Este es el primer paso concreto de la migración descrita más abajo (punto 3).
+- **Problema 1** (`src/components/EllipsePolarizationSimulator.jsx`): simulador Ex/Ey/δ/rotación con SVG y `requestAnimationFrame`, extraído sin cambios de comportamiento desde `ProblemPage.jsx`. Incluye los tres casos del enunciado oficial (`Problema1.pdf`) como botones "Modo Resolver" (Caso A/B/C/Restablecer), la sección "Resultados del análisis matemático" (`buildProblema1Analysis`) verificada línea por línea contra el PDF, y `PolarizationPlaneDiagram` para el caso lineal. `HomePage.jsx` sigue teniendo su propia copia reducida del mismo simulador para la vista previa del hero (duplicación consciente, ver `Pendiente` abajo).
+- **Problema 2** (`src/components/BrewsterSimulator.jsx`): ángulo de Brewster / polarización por reflexión, implementado a partir de `Problema2.pdf` (el PDF real trata este fenómeno, no Ley de Malus como decía un placeholder anterior sin fuente). Controles interactivos n1 (medio incidente) y θp (ángulo de incidencia = ángulo de polarización); calcula n2 = n1·tan(θp) y θr por ley de Snell, replicando el redondeo intermedio del PDF (n2 se redondea a 2 cifras antes de aplicarlo en Snell) para que los valores por defecto coincidan exactamente con el enunciado (n2 = 1,40, θr = 35,55°/35,56° según redondeo). Diagrama SVG propio del rayo incidente/reflejado/refractado con marcadores de polarización (puntos = E perpendicular al plano de incidencia, trazos = E paralelo) y el arco de 90° que define el ángulo de Brewster. Marco teórico y conclusión cruzados contra `docs/teoria/TeoriaModulo2.md` (transcripción del video de la cátedra): se agregó la mención del caso general (fuera del ángulo de Brewster la reflexión es solo parcialmente polarizada) y el ejemplo real que da el profesor (reflejos en agua/vidrio/nieve, anteojos de sol polarizados).
+- **Problema 3**: sin PDF de la cátedra cargado todavía. Se muestra como "Próximamente" (`problemData['problema-3'].comingSoon`), sin física inventada — ver `Próximos módulos`.
 - Sección 3 de Problema 1 incluye además los tres enunciados oficiales a/b/c (`problemData['problema-1'].casesSummary`), como referencia estática de la cátedra, con link conceptual a los botones "Caso A/B/C" y a la sección 5.
-- Cuando el caso activo es lineal, la sección 4 (Simulación interactiva) dibuja `PolarizationPlaneDiagram` justo debajo del gráfico Ex/Ey principal: una ilustración (no una imagen fija) del plano de polarización del PDF — el plano fijo que contiene la dirección de propagación Z y el vector E (en rojo, como en el PDF) —, recalculada en vivo con el ángulo α real. Usa X horizontal / Y vertical + Z como única diagonal a propósito: con los tres ejes a 120° simétricos el bisector X-Y (el caso Ax=Ay, el más común) queda matemáticamente colineal con Z y el plano se dibuja invisible; con esta base solo degenera en un valor puntual de α (~‑34.5°), no en el caso por defecto.
 - Estilos en un único `styles.css` global, con un breakpoint responsive (700px).
 
 ## Pendiente — Módulo 1 (Polarización)
@@ -20,9 +19,10 @@ Este documento resume el estado actual del proyecto y el trabajo previsto. Se ac
 Según los criterios de aceptación de `MODULO_1_POLARIZACION.md`:
 
 - [ ] Detección automática del estado de polarización expuesta como resultado explícito (tipo + condiciones detectadas), no solo como texto derivado inline (el pill "Estado actual" sigue usando solo Lineal/Circular/Elíptica; la distinción derecha/izquierda hoy vive únicamente en la sección de análisis matemático).
-- [ ] Explicación textual generada según el resultado detectado (`ExplanationCard` en la arquitectura planeada) — parcialmente cubierto por la sección de análisis matemático de Problema 1.
-- [ ] Migrar la lógica matemática (`calculateEx`, `calculateEy`, detección de estado) a utilidades independientes de React, reutilizables entre páginas — hoy está duplicada e inline en cada componente. `buildProblema1Analysis` ya es una función pura sin dependencias de React, pensada para poder moverse a `utils/` sin cambios cuando se haga esta migración.
-- [ ] Sección "Resultados del análisis matemático" para Problema 2 (Ley de Malus) y Problema 3 (Ley de Brewster) — bloqueado hasta que cada uno tenga su propio simulador con las variables correctas (ángulo del polarizador; índices de refracción), ver "Próximos módulos" abajo. Armar la derivación matemática antes de eso mostraría física incorrecta (usaría Ex/Ey/δ, que no son las variables de esos problemas).
+- [ ] Explicación textual generada según el resultado detectado (`ExplanationCard` en la arquitectura planeada) — parcialmente cubierto por la sección de análisis matemático de Problema 1 y Problema 2.
+- [ ] Migrar la lógica matemática (`calculateEx`, `calculateEy`, detección de estado, `computeBrewsterAnalysis`) a utilidades independientes de React bajo `utils/`, reutilizables entre páginas — hoy cada simulador la trae inline en su propio componente de `src/components/`. Ambas ya son funciones puras sin dependencias de React, pensadas para poder moverse sin cambios cuando se haga esta migración.
+- [ ] `HomePage.jsx` sigue duplicando una versión reducida del simulador Ex/Ey/δ para la vista previa del hero, en vez de reutilizar `EllipsePolarizationSimulator`. No se unificó en esta iteración porque el hero usa un subconjunto mínimo (sin controles) — evaluar si conviene una variante `compact` del componente.
+- [ ] Sección "Resultados del análisis matemático" para Problema 3 — bloqueada hasta contar con el PDF oficial de la cátedra para ese problema (ver `Próximos módulos`).
 
 ## Migración de arquitectura
 
@@ -30,17 +30,15 @@ Según los criterios de aceptación de `MODULO_1_POLARIZACION.md`:
 
 1. Extraer el motor matemático (`polarizationMath.ts` / `.js`) fuera de los componentes de página.
 2. Extraer el detector de estado (`polarizationDetector.ts` / `.js`).
-3. Dividir `ProblemPage.jsx` en subcomponentes (`ParameterPanel`, `SimulationCanvas` o su equivalente SVG, `ResultCard`, `ExplanationCard`) para eliminar la duplicación con `HomePage.jsx`.
+3. ~~Dividir `ProblemPage.jsx` en subcomponentes~~ — hecho parcialmente: `EllipsePolarizationSimulator.jsx` y `BrewsterSimulator.jsx` viven en `src/components/` y `ProblemPage.jsx` delega en ellos por `simulatorKind`. Falta todavía extraer subcomponentes más finos (`ParameterPanel`, `ResultCard`, `ExplanationCard`) dentro de cada simulador y eliminar la duplicación restante con `HomePage.jsx`.
 4. Evaluar la adopción de TypeScript y TailwindCSS solo cuando haya justificación concreta (no como paso obligatorio previo a lo anterior).
 
 ## Próximos módulos
 
-Según `Arquitectura modulo1.md` (sección Escalabilidad) y los problemas ya listados en `SimulatorIndexPage.jsx`:
+- **Problema 3**: pendiente de que la cátedra provea el PDF con el enunciado y la resolución oficial. Hasta entonces la ruta `/simulador/problema-3` muestra un estado "Próximamente" en vez de contenido inventado (ver `PROJECT_CONTEXT.md`: toda la teoría debe basarse en material oficial, no en fuentes externas).
+- **Ley de Malus**: no tiene todavía un problema numerado de la guía asociado en este repositorio; se incorporará como módulo nuevo (con su propio `simulatorKind`) si/cuando la cátedra provea su enunciado en PDF.
 
-- **Ley de Malus** (Problema 2): requiere su propia simulación (intensidad transmitida vs. ángulo del polarizador), distinta del simulador Ex/Ey/δ actual.
-- **Ángulo de Brewster** (Problema 3): requiere su propia simulación (reflexión/refracción en una interfaz), también distinta del simulador actual.
-
-Cada módulo nuevo debe agregar sus propios componentes y utilidades sin modificar el código de los módulos existentes (ver principio de escalabilidad en `../Arquitectura modulo1.md`).
+Cada módulo nuevo debe agregar su propio componente en `src/components/` y declarar su `simulatorKind` en `problemData`, sin modificar el código de los módulos existentes (ver principio de escalabilidad en `../Arquitectura modulo1.md`).
 
 ## Fuera de alcance por ahora
 

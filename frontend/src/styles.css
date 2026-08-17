@@ -413,6 +413,98 @@ h2 {
   margin-top: 0.5rem;
 }
 
+/* Problema 2 — diagrama de rayos (ángulo de Brewster) */
+.medium-fill-air {
+  fill: rgba(226, 232, 240, 0.03);
+}
+
+.medium-fill-glass {
+  fill: rgba(56, 189, 248, 0.1);
+}
+
+.interface-line {
+  stroke: rgba(226, 232, 240, 0.45);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.normal-line {
+  stroke: rgba(226, 232, 240, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 0.12 0.1;
+  vector-effect: non-scaling-stroke;
+}
+
+.ray-incident,
+.ray-reflected,
+.ray-refracted {
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.ray-incident {
+  stroke: #e2e8f0;
+}
+
+.ray-incident-arrow {
+  fill: #e2e8f0;
+}
+
+.ray-reflected {
+  stroke: #fbbf24;
+}
+
+.ray-reflected-arrow {
+  fill: #fbbf24;
+}
+
+.ray-refracted {
+  stroke: #38bdf8;
+}
+
+.ray-refracted-arrow {
+  fill: #38bdf8;
+}
+
+.pol-dot {
+  fill: #f8fafc;
+}
+
+.pol-tick {
+  stroke: #f8fafc;
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.angle-arc-right {
+  stroke: #f87171;
+}
+
+.angle-right-label {
+  fill: #f87171;
+}
+
+.medium-label {
+  fill: #94a3b8;
+  font-size: 0.19px;
+}
+
+.ray-name-label {
+  fill: #cbd5e1;
+  font-size: 0.16px;
+  font-weight: 400;
+}
+
+.warning-note {
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  border-radius: 12px;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  color: #fde68a;
+  font-size: 0.9rem;
+}
+
 .axis-label {
   fill: #e2e8f0;
   font-size: 0.24px;

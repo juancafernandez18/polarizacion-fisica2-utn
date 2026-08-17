@@ -8,13 +8,14 @@ const problems = [
   },
   {
     title: 'Problema 2',
-    description: 'Ley de Malus y relación entre intensidad transmitida y ángulo del polarizador.',
+    description: 'Ángulo de Brewster: polarización total por reflexión al incidir sobre una superficie de vidrio.',
     path: '/simulador/problema-2'
   },
   {
     title: 'Problema 3',
-    description: 'Ley de Brewster y polarización por reflexión en interfaces dielectrías.',
-    path: '/simulador/problema-3'
+    description: 'Próximamente: se incorporará en cuanto esté disponible la resolución oficial de la cátedra.',
+    path: '/simulador/problema-3',
+    comingSoon: true
   }
 ];
 
@@ -38,8 +39,11 @@ function SimulatorIndexPage() {
           {problems.map((problem) => (
             <article key={problem.title} className="card problem-card">
               <h3>{problem.title}</h3>
+              {problem.comingSoon && <span className="topic-tag">Próximamente</span>}
               <p>{problem.description}</p>
-              <Link className="text-link" to={problem.path}>Abrir problema</Link>
+              <Link className="text-link" to={problem.path}>
+                {problem.comingSoon ? 'Ver estado' : 'Abrir problema'}
+              </Link>
             </article>
           ))}
         </div>

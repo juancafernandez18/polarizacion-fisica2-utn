@@ -9,6 +9,7 @@ Convenciones de código y diseño observadas y esperadas en `frontend/`. El obje
 - JavaScript plano con JSX (`.jsx`), no TypeScript, hasta que el roadmap indique la migración.
 - Componentes funcionales con hooks (`useState`, `useEffect`, `useMemo`). No usar clases.
 - Un componente de página por archivo en `frontend/src/pages/`, exportado como `export default function NombrePage()`.
+- Cada problema con simulación propia vive en su propio componente en `frontend/src/components/` (ver `EllipsePolarizationSimulator.jsx`, `BrewsterSimulator.jsx`), no inline en `ProblemPage.jsx`. `problemData` en `ProblemPage.jsx` declara qué simulador usa cada problema mediante el campo `simulatorKind`, y `ProblemPage.jsx` lo renderiza por lookup en el objeto `simulators`. Un problema nuevo agrega su propio componente sin modificar los de los demás (ver `Arquitectura modulo1.md`, sección Escalabilidad).
 - Animaciones siempre con `window.requestAnimationFrame`; nunca `setInterval`/`setTimeout` para loops de animación (ver `Arquitectura modulo1.md`).
 - Los datos de contenido (problemas, módulos de teoría) se definen como objetos/arrays planos al inicio del archivo (ver `problemData` en `ProblemPage.jsx`, `problems` en `SimulatorIndexPage.jsx`, `theoryModules`/`practiceCards` en `HomePage.jsx`), no hardcodeados dentro del JSX.
 - La lógica matemática de la simulación no debe depender de React (sin hooks, sin JSX) — debe poder llamarse como función pura, aunque hoy todavía esté inline dentro de los componentes.
