@@ -138,12 +138,18 @@ function shortArc(dir1, dir2, r) {
 }
 
 // Posiciones fijas de los nombres de cada rayo: no dependen de θp/θr, así el
-// texto no se mueve ni sigue a la línea cuando el usuario mueve el slider —
-// se queda anclado en la misma región del diagrama (aire arriba, vidrio abajo).
+// texto no se mueve ni sigue a la línea cuando el usuario mueve el slider.
+// Se ubican pegadas a los bordes del diagrama (mismo criterio que "n1 (aire)"
+// / "n2 (vidrio)"), en las cuatro esquinas, ancladas hacia adentro
+// (textAnchor "start" a la izquierda, "end" a la derecha) para que el texto
+// crezca hacia el centro del diagrama en vez de salirse del viewBox. Los rayos
+// tienen como máximo radio 2.15 desde el origen; estas posiciones quedan
+// siempre a radio mayor a esa distancia, así el texto nunca queda cerca de
+// una flecha sin importar el ángulo θp elegido.
 const RAY_NAME_LABELS = {
-  incident: { x: -1.9, y: -1.3, text: 'Rayo incidente' },
-  reflected: { x: 1.9, y: -1.3, text: 'Rayo reflejado' },
-  refracted: { x: 1.9, y: 1.9, text: 'Rayo refractado' }
+  incident: { x: -2.45, y: -2.0, anchor: 'start', text: 'Rayo incidente' },
+  reflected: { x: 2.45, y: -2.0, anchor: 'end', text: 'Rayo reflejado' },
+  refracted: { x: 2.45, y: 2.45, anchor: 'end', text: 'Rayo refractado' }
 };
 
 // Diagrama de rayos: interfaz horizontal (y=0), aire arriba (y<0), vidrio abajo (y>0).
@@ -237,9 +243,9 @@ function BrewsterRayDiagram({ thetaP, thetaR }) {
         <text x={thetaRLabelPos.x.toFixed(3)} y={thetaRLabelPos.y.toFixed(3)} className="axis-label">θr</text>
         <text x={rightAngleLabel.x.toFixed(3)} y={rightAngleLabel.y.toFixed(3)} className="axis-label angle-right-label">90°</text>
 
-        <text x={RAY_NAME_LABELS.incident.x} y={RAY_NAME_LABELS.incident.y} textAnchor="middle" className="axis-label ray-name-label">{RAY_NAME_LABELS.incident.text}</text>
-        <text x={RAY_NAME_LABELS.reflected.x} y={RAY_NAME_LABELS.reflected.y} textAnchor="middle" className="axis-label ray-name-label">{RAY_NAME_LABELS.reflected.text}</text>
-        <text x={RAY_NAME_LABELS.refracted.x} y={RAY_NAME_LABELS.refracted.y} textAnchor="middle" className="axis-label ray-name-label">{RAY_NAME_LABELS.refracted.text}</text>
+        <text x={RAY_NAME_LABELS.incident.x} y={RAY_NAME_LABELS.incident.y} textAnchor={RAY_NAME_LABELS.incident.anchor} className="axis-label ray-name-label">{RAY_NAME_LABELS.incident.text}</text>
+        <text x={RAY_NAME_LABELS.reflected.x} y={RAY_NAME_LABELS.reflected.y} textAnchor={RAY_NAME_LABELS.reflected.anchor} className="axis-label ray-name-label">{RAY_NAME_LABELS.reflected.text}</text>
+        <text x={RAY_NAME_LABELS.refracted.x} y={RAY_NAME_LABELS.refracted.y} textAnchor={RAY_NAME_LABELS.refracted.anchor} className="axis-label ray-name-label">{RAY_NAME_LABELS.refracted.text}</text>
 
         <text x="-2.45" y="-2.3" className="axis-label medium-label">n1 (aire)</text>
         <text x="-2.45" y="2.45" className="axis-label medium-label">n2 (vidrio)</text>
