@@ -1,12 +1,14 @@
 import { Link, useParams } from 'react-router-dom';
 import EllipsePolarizationSimulator from '../components/EllipsePolarizationSimulator';
 import BrewsterSimulator from '../components/BrewsterSimulator';
+import BrewsterWaterGlassSimulator from '../components/BrewsterWaterGlassSimulator';
 
 // Cada problema declara qué simulador propio usa (ver src/components/). Un problema
 // nuevo agrega su propio componente acá sin tocar el de los demás.
 const simulators = {
   ellipse: EllipsePolarizationSimulator,
-  brewster: BrewsterSimulator
+  brewster: BrewsterSimulator,
+  brewsterWaterGlass: BrewsterWaterGlassSimulator
 };
 
 const problemData = {
@@ -95,9 +97,23 @@ const problemData = {
   },
   'problema-3': {
     title: 'Problema 3',
-    subtitle: 'Próximamente',
-    comingSoon: true,
-    statement: 'Este módulo todavía no tiene cargada una resolución oficial de la cátedra. En cuanto se incorpore el PDF correspondiente al Problema 3 de la Guía de Trabajos Prácticos N.º 14, se implementará con el mismo criterio que los Problemas 1 y 2: simulación interactiva propia, desarrollo matemático completo tomado del enunciado original y resultados verificables, sin física inventada.'
+    subtitle: 'Ángulo de Brewster — Polarización por reflexión (agua → vidrio)',
+    simulatorKind: 'brewsterWaterGlass',
+    statement: 'La luz que viaja en agua incide sobre una placa de vidrio con un ángulo de incidencia de 53,0°. Una parte del haz se refleja y otra se refracta. Las porciones reflejada y refractada forman un ángulo de 90° entre sí. Se pide calcular el índice de refracción del vidrio.',
+    theory: 'Es el mismo fenómeno de polarización por reflexión del Problema 2 (ángulo de Brewster), aplicado a otro par de medios: acá la luz viaja primero por agua en vez de aire. Cuando el rayo reflejado y el rayo refractado quedan exactamente perpendiculares entre sí, el ángulo de incidencia en el que ocurre esto es el ángulo de polarización o ángulo de Brewster θp, y el rayo reflejado queda totalmente polarizado. Como en este problema el ángulo de incidencia y la condición de 90° ya vienen dados, θp coincide con el ángulo de incidencia; a partir de la geometría (θ_reflejado + θ_refractado = 90°, con θ_reflejado = θi por la ley de reflexión) se obtiene primero el ángulo de refracción, y luego, aplicando la ley de Brewster, el índice de refracción del vidrio.',
+    equations: [
+      'θ_reflejado = θi   (ley de reflexión)',
+      'θ_reflejado + θ_refractado = 90°',
+      'θp = θi',
+      'tan(θp) = n_vidrio / n_agua',
+      'n_vidrio = n_agua · tan(θp)'
+    ],
+    steps: [
+      'Se identifica que el ángulo de reflexión es igual al de incidencia (ley de reflexión).',
+      'Como el rayo reflejado y el refractado forman 90°, se despeja el ángulo de refracción: θ_refractado = 90° − θi.',
+      'Se reconoce que el ángulo de incidencia dado es el ángulo de Brewster, ya que en él el rayo reflejado sale totalmente polarizado.',
+      'Se aplica la ley de Brewster tan(θp) = n_vidrio/n_agua para hallar el índice de refracción del vidrio.'
+    ]
   }
 };
 
