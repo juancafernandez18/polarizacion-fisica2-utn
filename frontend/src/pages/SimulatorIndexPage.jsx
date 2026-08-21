@@ -13,9 +13,8 @@ const problems = [
   },
   {
     title: 'Problema 3',
-    description: 'Próximamente: se incorporará en cuanto esté disponible la resolución oficial de la cátedra.',
-    path: '/simulador/problema-3',
-    comingSoon: true
+    description: 'Ángulo de Brewster agua–vidrio: a partir del ángulo de incidencia y el índice del agua, se calcula el índice de refracción del vidrio que hace que el reflejado y el refractado formen 90°.',
+    path: '/simulador/problema-3'
   }
 ];
 
