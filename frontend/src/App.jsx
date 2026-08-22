@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SimulatorIndexPage from './pages/SimulatorIndexPage';
 import ProblemPage from './pages/ProblemPage';
@@ -10,10 +10,24 @@ function App() {
     <BrowserRouter>
       <div className="app-shell">
         <header className="site-header">
-          <div>
+          <Link to="/" className="brand">
+            <span className="brand-mark">
+              <svg viewBox="0 0 24 24" fill="none" role="img" aria-hidden="true">
+                <path d="M2 13c2-6 4-6 5-3s3 3 5 0 3-9 5-3 3 6 5 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span>
+              <p className="brand-name">PolarLab</p>
+              <p className="brand-subtitle">Física II</p>
+            </span>
+          </Link>
+
+          <div className="header-catedra">
             <p className="eyebrow">Laboratorio de polarización</p>
             <h1 className="site-title">Cátedra Física II · UTN FRRe</h1>
           </div>
+
+          <Link to="/simulador" className="btn btn-primary header-cta">Ir al simulador</Link>
         </header>
 
         <Routes>
