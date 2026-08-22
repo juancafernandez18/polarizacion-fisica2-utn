@@ -15,6 +15,11 @@ const problems = [
     title: 'Problema 3',
     description: 'Ángulo de Brewster agua–vidrio: a partir del ángulo de incidencia y el índice del agua, se calcula el índice de refracción del vidrio que hace que el reflejado y el refractado formen 90°.',
     path: '/simulador/problema-3'
+  },
+  {
+    title: 'Problema 6',
+    description: 'Ley de Malus: un polarizador y un analizador en serie. Al girar el analizador un ángulo θ, la intensidad transmitida cae siguiendo I/I0 = cos²(θ).',
+    path: '/simulador/problema-6'
   }
 ];
 

@@ -2,13 +2,15 @@ import { Link, useParams } from 'react-router-dom';
 import EllipsePolarizationSimulator from '../components/EllipsePolarizationSimulator';
 import BrewsterSimulator from '../components/BrewsterSimulator';
 import BrewsterWaterGlassSimulator from '../components/BrewsterWaterGlassSimulator';
+import MalusLawSimulator from '../components/MalusLawSimulator';
 
 // Cada problema declara qué simulador propio usa (ver src/components/). Un problema
 // nuevo agrega su propio componente acá sin tocar el de los demás.
 const simulators = {
   ellipse: EllipsePolarizationSimulator,
   brewster: BrewsterSimulator,
-  brewsterWaterGlass: BrewsterWaterGlassSimulator
+  brewsterWaterGlass: BrewsterWaterGlassSimulator,
+  malus: MalusLawSimulator
 };
 
 const problemData = {
@@ -114,6 +116,57 @@ const problemData = {
       'Se reconoce que el ángulo de incidencia dado es el ángulo de Brewster, ya que en él el rayo reflejado sale totalmente polarizado.',
       'Se aplica la ley de Brewster tan(θp) = n_vidrio/n_agua para hallar el índice de refracción del vidrio.'
     ]
+  },
+  'problema-6': {
+    title: 'Problema 6',
+    subtitle: 'Ley de Malus — Polarizador y analizador',
+    simulatorKind: 'malus',
+    statement: 'Un polarizador y un analizador están orientados de modo que se transmite la máxima cantidad de luz. ¿A qué fracción de su valor máximo se reduce la intensidad de la luz transmitida cuando se hace girar el analizador? a) 22,5°  b) 45,0°  c) 67,5°',
+    theory: 'Después de atravesar el primer polarizador, la luz queda linealmente polarizada a lo largo del eje de transmisión de ese filtro. Al atravesar un segundo filtro (el analizador), solo se transmite la componente del campo eléctrico paralela al eje de este último; el resto se absorbe. La intensidad transmitida sigue la Ley de Malus, I = I0·cos²(θ), donde θ es el ángulo entre los ejes de transmisión de ambos filtros e I0 es la intensidad máxima, que se obtiene cuando los ejes están alineados (θ = 0°).',
+    equations: [
+      'I = I0 · cos²(θ)',
+      'I / I0 = cos²(θ)'
+    ],
+    steps: [
+      'Se identifica que, tras el primer polarizador, la luz queda linealmente polarizada a lo largo de su eje.',
+      'Se identifica el ángulo θ entre el eje del polarizador y el eje del analizador.',
+      'Se aplica la Ley de Malus I = I0·cos²(θ) para hallar la intensidad transmitida.',
+      'Se expresa el resultado como fracción (I/I0) y como porcentaje de la intensidad máxima.'
+    ],
+    casesSummary: [
+      {
+        id: 'a',
+        condition: 'θ = 22,5°',
+        outcome: 'I/I0 = cos²(22,5°) ≈ 0,8536 ≈ 85,4% de la intensidad máxima.'
+      },
+      {
+        id: 'b',
+        condition: 'θ = 45,0°',
+        outcome: 'I/I0 = cos²(45°) = 0,5 = 50,0% de la intensidad máxima.'
+      },
+      {
+        id: 'c',
+        condition: 'θ = 67,5°',
+        outcome: 'I/I0 = cos²(67,5°) ≈ 0,1464 ≈ 14,6% de la intensidad máxima.'
+      }
+    ],
+    quickCases: [
+      {
+        label: 'Caso a) 22,5°',
+        description: 'θ = 22,5°: I/I0 = cos²(22,5°) ≈ 0,8536, unos 85,4% de la intensidad máxima.',
+        theta: 22.5
+      },
+      {
+        label: 'Caso b) 45,0°',
+        description: 'θ = 45,0°: I/I0 = cos²(45°) = 0,5, exactamente la mitad de la intensidad máxima.',
+        theta: 45
+      },
+      {
+        label: 'Caso c) 67,5°',
+        description: 'θ = 67,5°: I/I0 = cos²(67,5°) ≈ 0,1464, apenas un 14,6% de la intensidad máxima.',
+        theta: 67.5
+      }
+    ]
   }
 };
 
@@ -191,7 +244,7 @@ function ProblemPage() {
                   ))}
                 </div>
                 <p className="hero-caption">
-                  Podés reproducir cada caso con los botones &quot;Caso A/B/C&quot; de la simulación, y ver la resolución completa recalculada en la sección 5.
+                  Podés reproducir cada caso con los botones de la simulación, y ver la resolución completa recalculada más abajo.
                 </p>
               </>
             )}

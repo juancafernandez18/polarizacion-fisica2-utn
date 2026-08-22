@@ -13,7 +13,7 @@ Convenciones de código y diseño observadas y esperadas en `frontend/`. El obje
 - Cuando dos problemas comparten el mismo fenómeno físico con datos de entrada distintos (ver `BrewsterSimulator.jsx` y `BrewsterWaterGlassSimulator.jsx`, ambos ángulo de Brewster), se generaliza y comparte únicamente la parte puramente visual/geométrica (ver `BrewsterRayDiagram.jsx`, parametrizado por `medium1Label`/`medium2Label`) — la lógica matemática de cada problema (orden de derivación, pasos mostrados, redondeos) se mantiene en una función pura separada por componente, nunca compartida ni parametrizada con un flag de "modo".
 - Animaciones siempre con `window.requestAnimationFrame`; nunca `setInterval`/`setTimeout` para loops de animación (ver `Arquitectura modulo1.md`).
 - Los datos de contenido (problemas, módulos de teoría) se definen como objetos/arrays planos al inicio del archivo (ver `problemData` en `ProblemPage.jsx`, `problems` en `SimulatorIndexPage.jsx`, `theoryModules`/`practiceCards` en `HomePage.jsx`), no hardcodeados dentro del JSX.
-- La lógica matemática de la simulación no debe depender de React (sin hooks, sin JSX) — debe poder llamarse como función pura, aunque hoy todavía esté inline dentro de los componentes.
+- La lógica matemática de la simulación no debe depender de React (sin hooks, sin JSX) — debe poder llamarse como función pura, aunque hoy todavía esté inline dentro de los componentes. Excepción: cuando una fórmula es explícitamente pensada para reutilizarse en más de un problema (ver `frontend/src/utils/malusLaw.js`, la Ley de Malus), va en `frontend/src/utils/` en vez de vivir dentro del componente — primer caso real de esa carpeta; el resto de la migración de matemática a `utils/` sigue pendiente (ver ROADMAP).
 
 ## Estilos (CSS)
 

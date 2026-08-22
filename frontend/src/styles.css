@@ -505,6 +505,106 @@ h2 {
   font-size: 0.9rem;
 }
 
+/* Problema 6 — Ley de Malus (sistema polarizador + analizador, y gráfico cos²θ).
+   Los viewBox de estos dos diagramas son ~2x más anchos que los de Problema 2
+   (formato horizontal para el haz / para el eje θ), por eso .malus-caption,
+   .malus-chart-label y .malus-chart-title usan un font-size ~2x el de
+   .axis-label: mantienen el mismo tamaño en pantalla a pesar de la escala
+   de coordenadas distinta. */
+.malus-beam-line {
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.malus-beam-unpolarized {
+  stroke: #e2e8f0;
+}
+
+.malus-beam-polarized {
+  stroke: #7dd3fc;
+}
+
+.malus-beam-transmitted {
+  stroke: #fbbf24;
+  stroke-width: 3;
+}
+
+.malus-beam-arrow {
+  fill: #fbbf24;
+}
+
+.malus-unpolarized-tick {
+  stroke: #e2e8f0;
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.malus-polarized-tick {
+  stroke: #7dd3fc;
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.malus-source-dot {
+  fill: #e2e8f0;
+}
+
+.malus-plate {
+  fill: rgba(226, 232, 240, 0.16);
+  stroke: rgba(226, 232, 240, 0.5);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.malus-plate-analyzer {
+  fill: rgba(125, 211, 252, 0.18);
+  stroke: rgba(125, 211, 252, 0.6);
+}
+
+.malus-axis-line {
+  stroke-width: 2.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.malus-axis-fixed {
+  stroke: #e2e8f0;
+}
+
+.malus-axis-reference {
+  stroke: rgba(226, 232, 240, 0.3);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 3;
+}
+
+.malus-axis-rotating {
+  stroke: #fbbf24;
+}
+
+.malus-caption {
+  font-size: 0.4px;
+}
+
+.malus-curve {
+  fill: none;
+  stroke: #7dd3fc;
+  stroke-width: 2.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.malus-reference-dot {
+  fill: rgba(226, 232, 240, 0.55);
+}
+
+.malus-chart-label {
+  font-size: 0.32px;
+  fill: #94a3b8;
+  font-weight: 400;
+}
+
+.malus-chart-title {
+  font-size: 0.42px;
+}
+
 .axis-label {
   fill: #e2e8f0;
   font-size: 0.24px;
